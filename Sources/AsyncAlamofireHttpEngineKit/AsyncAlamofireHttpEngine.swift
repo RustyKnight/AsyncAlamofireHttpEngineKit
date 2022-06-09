@@ -10,7 +10,7 @@ import Alamofire
 import Cadmus
 import AsyncHttpEngineKit
 
-public struct AlamofireHttpEngineConfiguration {
+public struct AsyncAlamofireHttpEngineConfiguration {
     public static var isDebugMode = false
 }
 
@@ -131,7 +131,7 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
     }
     
     func debug(_ response: DataResponse<Data, AFError>) {
-        guard AlamofireHttpEngineConfiguration.isDebugMode else { return }
+        guard AsyncAlamofireHttpEngineConfiguration.isDebugMode else { return }
         guard let httpResponse = response.response else {
             log(warning: "Unable to determine server response to request made to \(url)")
             return
@@ -139,10 +139,9 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
         let statusCode = httpResponse.statusCode
         let description = HTTPURLResponse.localizedString(forStatusCode: httpResponse.statusCode)
         log(debug: """
-                    
-                \tServer responded to request made to \(url)
+                \n\tServer responded to request made to \(url)
                 \t\twith: \(statusCode)
-                \(description)
+                \t\(description)
                 """)
     }
 
@@ -168,7 +167,14 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
         }
     }
     
+    func debug(_ method: HTTPMethod, description: String? = nil) {
+        guard AsyncAlamofireHttpEngineConfiguration.isDebugMode else { return }
+        let text = description == nil ? " " : " \(description!) "
+        log(debug: "\n\t[\(method)]\(text)\(url)")
+    }
+    
     func execute(_ method: HTTPMethod) async throws -> RequestResponse {
+        debug(method)
         let request = session.request(
             url,
             method: method,
@@ -187,6 +193,7 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
     }
     
     func execute(_ method: HTTPMethod, data: Data) async throws -> RequestResponse {
+        debug(method, description: "with data")
         let request = session.upload(
             data,
             to: url,
@@ -207,6 +214,7 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
     }
     
     func execute(_ method: HTTPMethod, formData: [MultipartFormItem]) async throws -> RequestResponse {
+        debug(method, description: "with form data")
         let request = session.upload(
             multipartFormData: { mfd in
                 for item in formData {

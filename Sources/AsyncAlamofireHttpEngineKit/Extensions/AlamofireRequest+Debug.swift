@@ -11,7 +11,7 @@ import Cadmus
 
 extension Alamofire.Request {
     public func debugLog() -> Self {
-        if AlamofireHttpEngineConfiguration.isDebugMode {
+        if AsyncAlamofireHttpEngineConfiguration.isDebugMode {
             debugPrint(self)
         }
         return self
