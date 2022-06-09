@@ -6,13 +6,13 @@
 //
 
 import Foundation
-import Asy
 import Alamofire
 import Cadmus
+import AsyncHttpEngineKit
 
 open class AlamofireHttpRequestBuilder: BaseHttpRequestBuilder {
     
-    override open func build() throws -> HttpEngine {
+    override open func build() throws -> AsyncHttpEngine {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         if !queryItems.isEmpty {
             components.queryItems = queryItems

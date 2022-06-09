@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "asynchttpenginekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RustyKnight/AsyncHttpEngineKit",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2ab218e7c660c4d0320a10e2902ac58680d7c372"
+      }
+    },
+    {
       "identity" : "cadmus",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RustyKnight/Cadmus",

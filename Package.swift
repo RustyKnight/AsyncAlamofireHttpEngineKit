@@ -20,7 +20,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/Alamofire/Alamofire", branch: "master"),
-        .package(path: "/Users/shane.whitehead/Development/Personal/CoreLibraries/AsyncHttpEngineKit"),
+        .package(url: "https://github.com/RustyKnight/AsyncHttpEngineKit", branch: "main"),
         .package(url: "https://github.com/RustyKnight/Cadmus", .upToNextMajor(from: "3.0.0"))
     ],
     targets: [
@@ -28,7 +28,11 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "AsyncAlamofireHttpEngineKit",
-            dependencies: []),
+            dependencies: [
+                "Alamofire",
+                "AsyncHttpEngineKit",
+                "Cadmus"
+            ]),
         .testTarget(
             name: "AsyncAlamofireHttpEngineKitTests",
             dependencies: ["AsyncAlamofireHttpEngineKit"]),
