@@ -141,7 +141,7 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
         log(debug: """
                 \n\tServer responded to request made to \(url)
                 \t\twith: \(statusCode)
-                \t\(description)
+                \t\t\(description)
                 """)
     }
 
@@ -170,7 +170,7 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
     func debug(_ method: HTTPMethod, description: String? = nil) {
         guard AsyncAlamofireHttpEngineConfiguration.isDebugMode else { return }
         let text = description == nil ? " " : " \(description!) "
-        log(debug: "\n\t[\(method)]\(text)\(url)")
+        log(debug: "\n\t[\(method.debugDescription)]\(text)\(url)")
     }
     
     func execute(_ method: HTTPMethod) async throws -> RequestResponse {
