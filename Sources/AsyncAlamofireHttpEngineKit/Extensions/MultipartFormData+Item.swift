@@ -23,7 +23,7 @@ extension MultipartFormData {
             }
         case .file(let url, let name, let mimeType, let fileName):
             log(debug: """
-                \tAppend file:
+                \n\tAppend file:
                 \t\t\(url)
                 \t\t\(name)
                 """)
