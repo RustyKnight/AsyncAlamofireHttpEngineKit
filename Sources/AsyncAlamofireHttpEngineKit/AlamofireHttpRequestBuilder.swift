@@ -25,4 +25,10 @@ open class AlamofireHttpRequestBuilder: BaseHttpRequestBuilder {
                                    timeout: timeout,
                                    progressMonitor: progressMonitor)
     }
+    
+    @discardableResult
+    public func with(_ header: HTTPHeader) -> Self {
+        with(header: header.name, value: header.value)
+        return self
+    }
 }
