@@ -60,11 +60,11 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
     internal lazy var session: Session = {
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = timeout
-        sessionConfig.timeoutIntervalForResource = timeout * 10
+//        sessionConfig.timeoutIntervalForResource = timeout * 10
         sessionConfig.requestCachePolicy = .reloadIgnoringLocalCacheData
-        if #available(iOS 11.0, *) {
-            sessionConfig.waitsForConnectivity = true
-        }
+//        if #available(iOS 11.0, *) {
+//            sessionConfig.waitsForConnectivity = true
+//        }
         sessionConfig.networkServiceType = .responsiveData
         sessionConfig.shouldUseExtendedBackgroundIdleMode = true
         if #available(iOS 13, *) {
