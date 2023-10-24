@@ -29,4 +29,21 @@ final class AsyncAlamofireHttpEngineKitTests: XCTestCase {
         }
         waitForExpectations(timeout: 60.0)
     }
+    
+    func testNoDataResponse() {
+        // http://192.168.68.64:32400/library/sections/all/refresh?X-Plex-Token=mvvDczUBJBEAx5DRtHDg
+        let exp = expectation(description: "Queue")
+        Task {
+            do {
+                let builder = AlamofireHttpRequestBuilder(to: URL(string: "http://192.168.68.64:32400/library/sections/all/refresh")!)
+                    .with(queryNamed: "X-Plex-Token", value: "mvvDczUBJBEAx5DRtHDg")
+                
+                let response = try await builder.build().get()
+            } catch {
+                XCTFail("\(error)")
+            }
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 60.0)
+    }
 }

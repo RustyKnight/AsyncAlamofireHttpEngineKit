@@ -144,25 +144,42 @@ public class AlamofireHttpEngine: AsyncHttpEngine {
                 \t\t\(description)
                 """)
     }
+    
+    private func createRequestResponse(_ response: HTTPURLResponse?, data: Data?) -> RequestResponse {
+        var statusCode = -1
+        var description = "Unknown"
+        if let httpResponse = response {
+            statusCode = httpResponse.statusCode
+            description = HTTPURLResponse.localizedString(forStatusCode: httpResponse.statusCode)
+        }
+        let headers = response?.allHeaderFields
+        return DefaultRequestResponse(
+            statusCode: statusCode,
+            statusDescription: description,
+            data: data,
+            responseHeaders: headers
+        )
+    }
 
     func process(_ response: DataResponse<Data, AFError>) throws -> RequestResponse {
         debug(response)
         switch response.result {
         case .success(let data):
-            var statusCode = -1
-            var description = "Unknown"
-            if let httpResponse = response.response {
-                statusCode = httpResponse.statusCode
-                description = HTTPURLResponse.localizedString(forStatusCode: httpResponse.statusCode)
-            }
-            let headers = response.response?.allHeaderFields
-            return DefaultRequestResponse(
-                statusCode: statusCode,
-                statusDescription: description,
-                data: data,
-                responseHeaders: headers
-            )
+            return createRequestResponse(response.response, data: data)
+            
         case .failure(let error):
+            // Might want to find a better way to handle this edge case :/
+            switch error {
+            case AFError.responseSerializationFailed(let reason):
+                switch reason {
+                case .inputDataNilOrZeroLength:
+                    return createRequestResponse(response.response, data: nil)
+
+                default: break
+                }
+                
+            default: break
+            }
             throw error
         }
     }
